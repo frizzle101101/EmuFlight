@@ -316,7 +316,7 @@ void updateArmingStatus(void)
             unsetArmingDisabled(ARMING_DISABLED_THROTTLE);
         }
 
-        if (!isUpright() && !IS_RC_MODE_ACTIVE(BOXFLIPOVERAFTERCRASH)) {
+        if (!isUpright() && (!IS_RC_MODE_ACTIVE(BOXFLIPOVERAFTERCRASH) || !IS_RC_MODE_ACTIVE(BOXAUTOFLIPAFTERCRASH))) {
             setArmingDisabled(ARMING_DISABLED_ANGLE);
         } else {
             unsetArmingDisabled(ARMING_DISABLED_ANGLE);
@@ -509,13 +509,19 @@ void tryArm(void)
         }
 
         if (isMotorProtocolDshot() && isModeActivationConditionPresent(BOXFLIPOVERAFTERCRASH)) {
-            if (!(IS_RC_MODE_ACTIVE(BOXFLIPOVERAFTERCRASH) || (tryingToArm == ARMING_DELAYED_CRASHFLIP))) {
+            if ((!(IS_RC_MODE_ACTIVE(BOXFLIPOVERAFTERCRASH) && !(IS_RC_MODE_ACTIVE(BOXAUTOFLIPAFTERCRASH)) || (tryingToArm == ARMING_DELAYED_CRASHFLIP))) {
                 flipOverAfterCrashActive = false;
+                autoFlipAfterCrashActive = false;
                 if (!featureIsEnabled(FEATURE_3D)) {
                     dshotCommandWrite(ALL_MOTORS, getMotorCount(), DSHOT_CMD_SPIN_DIRECTION_NORMAL, DSHOT_CMD_TYPE_INLINE);
                 }
-            } else {
-                flipOverAfterCrashActive = true;
+            }
+            else {
+                if ((IS_RC_MODE_ACTIVE(BOXAUTOFLIPAFTERCRASH)) {
+                    autoFlipAfterCrashActive = true;
+                } else {
+                    flipOverAfterCrashActive = true;
+                }
 #ifdef USE_RUNAWAY_TAKEOFF
                 runawayTakeoffCheckDisabled = false;
 #endif

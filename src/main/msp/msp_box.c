@@ -101,6 +101,7 @@ static const box_t boxes[CHECKBOX_ITEM_COUNT] = {
     { BOXSTICKCOMMANDDISABLE, "STICK COMMANDS DISABLE", 51},
     { BOXBEEPERMUTE, "BEEPER MUTE", 52},
     { BOXNFE, "NFE RACE MODE", 53},
+    { BOXAUTOFLIPAFTERCRASH, "AUTO FLIP AFTER CRASH", 54}
 };
 
 // mask of enabled IDs, calculated on startup based on enabled features. boxId_e is used as bit index
@@ -259,6 +260,7 @@ void initActiveBoxIds(void)
     checkMotorProtocolEnabled(&motorConfig()->dev, &configuredMotorProtocolDshot);
     if (configuredMotorProtocolDshot) {
         BME(BOXFLIPOVERAFTERCRASH);
+        BME(BOXAUTOFLIPAFTERCRASH);
     }
 #endif
 

@@ -472,7 +472,7 @@ FAST_CODE_NOINLINE void mixTable(timeUs_t currentTimeUs)
     // Find min and max throttle based on conditions. Throttle has to be known before mixing
     calculateThrottleAndCurrentMotorEndpoints(currentTimeUs);
 
-    if (isFlipOverAfterCrashActive()) {
+    if (isFlipOverAfterCrashActive() || isAutoFlipAfterCrashActive()) {
         applyFlipOverAfterCrashModeToMotors();
 
         return;

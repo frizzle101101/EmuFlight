@@ -147,6 +147,7 @@ int16_t magHold;
 static FAST_DATA_ZERO_INIT uint8_t pidUpdateCounter;
 
 static bool flipOverAfterCrashActive = false;
+static bool autoFlipAfterCrashActive = false;
 
 static timeUs_t disarmAt;     // Time of automatic disarm when "Don't spin the motors when armed" is enabled and auto_disarm_delay is nonzero
 
@@ -1311,6 +1312,11 @@ FAST_CODE void taskMainPidLoop(timeUs_t currentTimeUs)
 bool isFlipOverAfterCrashActive(void)
 {
     return flipOverAfterCrashActive;
+}
+
+bool isAutoFlipAfterCrashActive(void)
+{
+    return autoFlipAfterCrashActive;
 }
 
 timeUs_t getLastDisarmTimeUs(void)

@@ -277,11 +277,12 @@ static void calculateThrottleAndCurrentMotorEndpoints(timeUs_t currentTimeUs)
 
 static void applyFlipOverAfterCrashModeToMotors(void)
 {
+    const bool autoActive = isAutoFlipAfterCrashActive() && getCosTiltAngle() < 0;
     if (ARMING_FLAG(ARMED)) {
-        const float flipPowerFactor = 1.0f - mixerConfig()->crashflip_expo / 100.0f;
-        const float stickDeflectionPitchAbs = getRcDeflectionAbs(FD_PITCH);
-        const float stickDeflectionRollAbs = getRcDeflectionAbs(FD_ROLL);
-        const float stickDeflectionYawAbs = getRcDeflectionAbs(FD_YAW);
+        const float flipPowerFactor = autoActive ? 1.0f : 1.0f - mixerConfig()->crashflip_expo / 100.0f;
+        const float stickDeflectionPitchAbs = autoActive ? 0.0f : getRcDeflectionAbs(FD_PITCH);
+        const float stickDeflectionRollAbs = autoActive ? 0.0f : getRcDeflectionAbs(FD_ROLL);
+        const float stickDeflectionYawAbs = autoActive ? 0.0f : getRcDeflectionAbs(FD_YAW);
 
         const float stickDeflectionPitchExpo = flipPowerFactor * stickDeflectionPitchAbs + power3(stickDeflectionPitchAbs) * (1 - flipPowerFactor);
         const float stickDeflectionRollExpo = flipPowerFactor * stickDeflectionRollAbs + power3(stickDeflectionRollAbs) * (1 - flipPowerFactor);

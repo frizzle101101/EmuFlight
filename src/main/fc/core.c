@@ -518,10 +518,10 @@ void tryArm(void)
                 }
             }
             else {
-                if ((IS_RC_MODE_ACTIVE(BOXAUTOFLIPAFTERCRASH)) {
-                    autoFlipAfterCrashActive = true;
-                } else {
+                if ((IS_RC_MODE_ACTIVE(BOXFLIPOVERAFTERCRASH)) {
                     flipOverAfterCrashActive = true;
+                } else {
+                    autoFlipAfterCrashActive = true;
                 }
 #ifdef USE_RUNAWAY_TAKEOFF
                 runawayTakeoffCheckDisabled = false;
